@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Healthy Heroes 30-Day Challenge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f9f5;
+      text-align: center;
+      padding: 20px;
+    }
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    input {
+      padding: 8px;
+      width: 90%;
+      margin-top: 10px;
+    }
+    .points {
+      font-size: 20px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>🥤 Healthy Heroes Challenge</h2>
+
+  <div id="login">
+    <p>Create a username to start</p>
+    <input id="username" placeholder="Enter username">
+    <button onclick="start()">Start Challenge</button>
+  </div>
+
+  <div id="challenge" style="display:none;">
+    <p id="welcome"></p>
+    <div class="points">Points: <span id="points">0</span></div>
+
+    <p>📸 Eat today’s healthy food and upload proof:</p>
+    <input type="file">
+    <button onclick="addPoints()">Submit</button>
+
+    <p id="reward"></p>
+  </div>
+</div>
+
+<script>
+  let points = localStorage.getItem("points") || 0;
+  let user = localStorage.getItem("user");
+
+  if (user) {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("challenge").style.display = "block";
+    document.getElementById("welcome").innerText = "Welcome, " + user;
+    document.getElementById("points").innerText = points;
+  }
+
+  function start() {
+    user = document.getElementById("username").value;
+    if (!user) return;
+    localStorage.setItem("user", user);
+    localStorage.setItem("points", 0);
+    location.reload();
+  }
+
+  function addPoints() {
+    points = parseInt(points) + 10;
+    localStorage.setItem("points", points);
+    document.getElementById("points").innerText = points;
+
+    if (points >= 100) {
+      document.getElementById("reward").innerText =
+        "🎉 You earned a FREE drink + healthy snack!";
+    }
+  }
+</script>
+
+</body>
+</html>
